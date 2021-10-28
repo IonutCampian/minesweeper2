@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+    width: 100px;
+    height: 100px;
+    display: flex;
+}
+
+.container {
+    background-color: grey;
+    height: 80vmin;
+    width: 80vmin;
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    grid-template-rows: repeat(20, 1fr);
+    
+    margin-left: 50vh;
+}
+
+.container button {
+    background-color: grey;
+    height: 4vmin;
+    width: 4vmin;
+    border: solid, black, 1vmin;
+    
+}
+
+#title {
+    margin-left: 50vh;
+    background-color: chartreuse;
+}
+
+#Start {
+    margin-top:  0vh;
+    margin-left: 50vh;
+    background-color: chartreuse;
+}
+
+.container div {
+    background-color : red;
+}
