@@ -1,0 +1,22 @@
+function compareSquers (square, bombs) {
+    var rez = 0
+    for(var i = 0; i < bombs.length; ++i) {
+        if(bombs[i] == square + 1)
+        ++rez
+        if(bombs[i] == square + 19)
+        ++rez
+        if (bombs[i] == square + 20) 
+        ++rez
+        if (bombs[i] == square + 21)
+        ++rez
+        if (bombs[i] == square - 19)
+        ++rez
+        if(bombs[i] == square - 20)
+        ++rez
+        if(bombs[i] == square - 21)
+        ++rez
+        if(bombs[i] == square - 1)
+        ++rez
+    }
+    return rez
+}
