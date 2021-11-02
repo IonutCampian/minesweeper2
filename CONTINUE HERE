@@ -1,0 +1,85 @@
+const game = document.getElementById("gameBoard")
+var buttonId = 1
+var seconds = 0
+var time = document.getElementById("timer")
+var buttonBoard = []
+const numberOfBombs = 30
+const validButtons = 370
+var bombs = []
+var bombsNear = []
+const allPossibleButtons = []
+createBoard()
+generateBombs()
+checkForBomb()
+addMark()
+function createBoard() {
+    var k = 1;
+    for(var i = 1; i <= 20; ++i) {
+        for (var j = 1; j <= 20; ++j) {
+            var button = document.createElement("button")
+            button.setAttribute("id", k)
+            button.setAttribute("class", "buttons")
+            game.appendChild(button)
+            allPossibleButtons.push(parseInt(k))
+            ++k
+           
+        }
+    }
+}
+
+function generateBombs() {
+    for(var i = numberOfBombs; i > 0; --i) {
+        var randomNumber = Math.floor(Math.random() * 400 - 1 + 1)
+        if(!(bombs.includes(randomNumber)) && randomNumber != 0) {
+            bombs.push(parseInt(randomNumber))
+        } else {
+            ++i
+        }
+    }
+}
+
+function passTime() {
+    seconds += 1
+    document.getElementById("timer").innerText = seconds
+    console.log(seconds)
+}
+
+function getButtonId(button) {
+    return button.getAttribute("id")
+}
+
+function checkForBomb() {
+    const allButtons = Array.from(game.querySelectorAll(".buttons"))
+    allButtons.forEach(button => {
+        button.addEventListener('click', e => {
+            var isBomb = false
+            var buttonId = parseInt(getButtonId(button)) 
+            for(var i = 1; i < bombs.length; ++i) {
+                if(buttonId == bombs[i]) {
+                    isBomb = true;
+                    break;
+                }
+            }
+            if(isBomb) {
+                for(var i = 1; i < bombs.length; ++i) {
+                    document.getElementById(bombs[i]).style.backgroundColor = 'red'
+                    document.getElementById(bombs[i]).disabled = true;
+                }
+            }
+            console.log(buttonId) 
+        })
+    })  
+    console.log(bombs)
+    console.log(allPossibleButtons)
+    console.log(buttonId)
+}
+
+function addMark() {
+    const allButtons = game.querySelectorAll(".buttons")
+    allButtons.forEach(button => {
+        button.addEventListener("contextmenu", e =>{
+            var buttonId = getButtonId(button)
+            document.getElementById(buttonId).style.backgroundColor = 'yellow'
+        })
+    })
+}
