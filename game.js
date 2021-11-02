@@ -8,30 +8,23 @@ const validButtons = 370
 var bombs = []
 var bombsNear = []
 const allPossibleButtons = []
-var up = parseInt([2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19])
-var down = parseInt([382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399])
-var left = parseInt([21,41,61,81,101,121,141,161,181,201,221,241,261,281,301,321,341,361])
-var right = parseInt([40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360,380])
+var left = [21,41,61,81,101,121,141,161,181,201,221,241,261,281,301,321,341,361]
+var right =[40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360,380]
+var up = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+var down = [382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399]
 createBoard()
 generateBombs()
 checkForBomb()
 addMark()
-addBombPosition()
 function createBoard() {
-    var k = 1;
-    for(var i = 1; i <= 20; ++i) {
-        for (var j = 1; j <= 20; ++j) {
+    for(var i = 1; i <= 400; ++i) {
             var button = document.createElement("button")
-            button.setAttribute("id", k)
+            button.setAttribute("id", i)
             button.setAttribute("class", "buttons")
             game.appendChild(button)
-            allPossibleButtons.push(parseInt(k))
-            ++k
-           
-        }
-    }
+            allPossibleButtons[i] = i
+    }   
 }
-
 function generateBombs() {
     for(var i = numberOfBombs; i > 0; --i) {
         var randomNumber = Math.floor(Math.random() * 400 - 1 + 1)
@@ -41,7 +34,146 @@ function generateBombs() {
             ++i
         }
     }
+    
+    for( let i = 1; i <= 400; ++i) {
+        var total = 0
+        if(i != 1 && i != 400 && i != 381 && i != 20 && !bombs.includes(i) && !left.includes(i) && !right.includes(i) &&
+        !up.includes(i) && !down.includes(i)) {
+            if(bombs.includes(i + 1)){
+                ++total
+            }
+            if(bombs.includes(i + 19)){
+                ++total
+            }
+            if(bombs.includes(i + 20)){
+                ++total
+            }
+            if(bombs.includes(i + 21)){
+                ++total
+            }
+            if(bombs.includes(i - 1)){
+                ++total
+            }
+            if(bombs.includes(i - 19)){
+                ++total
+            }
+            if(bombs.includes(i - 20)){
+                ++total
+            }
+            if(bombs.includes(i - 21)){
+                ++total
+            }
+        } else if (left.includes(i)){
+            if(bombs.includes(i + 1)){
+                ++total
+            }
+            if(bombs.includes(i - 19)){
+                ++total
+            }
+            if(bombs.includes(i - 20)){
+                ++total
+            }
+            if(bombs.includes(i + 21)){
+                ++total
+            }
+            if(bombs.includes(i + 20)){
+                ++total
+            }
+        } else if (right.includes(i)){
+            if(bombs.includes(i - 1)){
+                ++total
+            }
+            if(bombs.includes(i - 19)){
+                ++total
+            }
+            if(bombs.includes(i - 20)){
+                ++total
+            }
+            if(bombs.includes(i + 19)){
+                ++total
+            }
+            if(bombs.includes(i + 20)){
+                ++total
+            }
+        } else if (up.includes(i)){
+            if(bombs.includes(i + 1)){
+                ++total
+            }
+            if(bombs.includes(i - 1)){
+                ++total
+            }
+            if(bombs.includes(i + 20)){
+                ++total
+            }
+            if(bombs.includes(i + 21)){
+                ++total
+            }
+            if(bombs.includes(i + 19)){
+                ++total
+            }
+        } else if (down.includes(i)){
+            if(bombs.includes(i + 1)){
+                ++total
+            }
+            if(bombs.includes(i - 19)){
+                ++total
+            }
+            if(bombs.includes(i - 20)){
+                ++total
+            }
+            if(bombs.includes(i - 21)){
+                ++total
+            }
+            if(bombs.includes(i - 1)){
+                ++total
+            }
+        } else if (i == 1) {
+            if(bombs.includes(i + 20)){
+                ++total
+            }
+            if(bombs.includes(i + 21)){
+                ++total
+            }
+            if(bombs.includes(i + 1)){
+                ++total
+            }
+        } else if (i == 20) {
+            if(bombs.includes(i + 20)){
+                ++total
+            }
+            if(bombs.includes(i + 19)){
+                ++total
+            }
+            if(bombs.includes(i - 1)){
+                ++total
+            }
+        } else if (i == 381) {
+            if(bombs.includes(i - 20)){
+                ++total
+            }
+            if(bombs.includes(i - 19)){
+                ++total
+            }
+            if(bombs.includes(i + 1)){
+                ++total
+            }
+        } else if (i == 400) {
+            if(bombs.includes(i - 20)){
+                ++total
+            }
+            if(bombs.includes(i - 19)){
+                ++total
+            }
+            if(bombs.includes(i - 1)){
+                ++total
+            }
+        }
+        //document.getElementById(i).innerText = total
+        bombsNear[i] = total;
+    }
+
 }
+
 
 function passTime() {
     seconds += 1
@@ -68,13 +200,21 @@ function checkForBomb() {
             if(isBomb) {
                 for(var i = 1; i < bombs.length; ++i) {
                     document.getElementById(bombs[i]).style.backgroundColor = 'red'
+                    document.getElementById(bombs[i]).disabled = true;
+                }
+                for(var i = 1; i <= 400; ++i){
+                    //document.getElementById(i).disabled = true
                 }
             } else {
-                var numberOfBombs = checkNumberOfBombs(buttonId, bombs)
-                document.getElementById(buttonId).innerHTML = numberOfBombs
+                if(bombsNear[buttonId] != 0){
+                    document.getElementById(buttonId).innerText = bombsNear[buttonId]
+                }
             }
         })
     })  
+    console.log(bombs)
+    console.log(allPossibleButtons)
+    console.log(bombsNear)
 }
 
 function addMark() {
@@ -87,154 +227,3 @@ function addMark() {
     })
 }
 
-function checkNumberOfBombs(buttonId, bombs) {
-    var totalBombsNear = 0
-    for(var i = 0; i < bombs.length; ++i) {
-        if(buttonId == 1){
-            if(bombs[i] == buttonId + 1) {
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId + 20) {
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId + 21){
-                ++totalBombsNear
-            }
-        } else if (buttonId == 20) {
-            if(bombs[i] == buttonId - 1) {
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId + 20) {
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId +19){
-                ++totalBombsNear
-            }
-        } else if (buttonId == 381) {
-            if(bombs[i] == buttonId + 1) {
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId - 20) {
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId - 19){
-                ++totalBombsNear
-            }
-        } else if (checkMargins(buttonId, up)){
-            if(bombs[i] == buttonId - 1){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId + 1){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId + 19){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId +20){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId + 21){
-                ++totalBombsNear
-            }
-        } else if (checkMargins(buttonId, down)){
-            if(bombs[i] == buttonId - 1){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId + 1){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId - 19){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId - 20){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId - 21){
-                ++totalBombsNear
-            }   
-        } else if (checkMargins(buttonId, left)) {
-            if(bombs[i] == buttonId - 20){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId - 19){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId + 1){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId + 20){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId + 21){
-                ++totalBombsNear
-            }
-        } else if (checkMargins(buttonId, right)){
-            if(bombs[i] == buttonId - 1){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId - 19){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId - 20){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId +20){
-                ++totalBombsNear
-            }
-            if(bombs[i] == buttonId + 19){
-                ++totalBombsNear
-            }
-        }
-        
-    }
-    if(totalBombsNear == 0) {
-        totalBombsNear = compareSquers(buttonId, bombs)
-    }
-
-    return totalBombsNear
-}
-
-function addBombPosition() {
-    for(var i = 1; i <= 400; ++i) {
-        var bombsNear = checkNumberOfBombs(i, bombs)
-        if(bombsNear != 0) {
-            buttonBoard[i] = parseInt(bombsNear)
-        }
-        else {
-            buttonBoard[i] = parseInt(0)
-        }
-    }
-    console.log(buttonBoard)
-}
-
-function checkMargins(buttonId, margin) {
-    for(var i = 0; i < margin.length; ++i){
-        if(margin[i] == buttonId){
-            return true;
-        }
-    }
-    return false
-}
-
-function compareSquers (square, bombs) {
-    var rez = 0
-    for(var i = 0; i < bombs.length; ++i) {
-        if(bombs[i] == square + 1)
-        ++rez
-        if(bombs[i] == square + 19)
-        ++rez
-        if (bombs[i] == square + 20) 
-        ++rez
-        if (bombs[i] == square + 21)
-        ++rez
-        if (bombs[i] == square - 19)
-        ++rez
-        if(bombs[i] == square - 20)
-        ++rez
-        if(bombs[i] == square - 21)
-        ++rez
-        if(bombs[i] == square - 1)
-        ++rez
-    }
-    return rez
-}
