@@ -20,3 +20,51 @@ function compareSquers (square, bombs) {
     }
     return rez
 }
+function compareSquers (square, bombs) {
+    var rez = 0
+    for(var i = 0; i < bombs.length; ++i) {
+        if(bombs[i] == square + 1)
+        ++rez
+        if(bombs[i] == square + 19)
+        ++rez
+        if (bombs[i] == square + 20) 
+        ++rez
+        if (bombs[i] == square + 21)
+        ++rez
+        if (bombs[i] == square - 19)
+        ++rez
+        if(bombs[i] == square - 20)
+        ++rez
+        if(bombs[i] == square - 21)
+        ++rez
+        if(bombs[i] == square - 1)
+        ++rez
+    }
+    return rez
+}
+
+function hideSide() {
+    for(var i = 1; i <= 40; ++i) {
+        document.getElementById(i).style.visibility = "hidden"
+    }
+    for(var i = 41; i <=382; i+= 20) {
+        document.getElementById(i).style.visibility='hidden'
+    }
+    for(var i = 42; i <= 382; i +=20){
+        document.getElementById(i).style.visibility='hidden'
+    }
+    for(var i = 361; i <= 400; ++i){
+        document.getElementById(i).style.visibility='hidden'
+    }
+    for(var i = 20; i <= 400; i +=20){
+        document.getElementById(i).style.visibility='hidden'
+    }
+    for(var i = 19; i <= 400; i+=20){
+        document.getElementById(i).style.visibility='hidden'
+    }
+    for(var i = 0; i <= 400; ++i){
+        document.getElementById(i).innerText = i;
+        allBtns.push(i);
+        console.log(allBtns)
+    }
+}
