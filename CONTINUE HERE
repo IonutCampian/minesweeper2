@@ -1,85 +1,158 @@
-const game = document.getElementById("gameBoard")
-var buttonId = 1
-var seconds = 0
-var time = document.getElementById("timer")
-var buttonBoard = []
-const numberOfBombs = 30
-const validButtons = 370
-var bombs = []
-var bombsNear = []
-const allPossibleButtons = []
-createBoard()
-generateBombs()
-checkForBomb()
-addMark()
-function createBoard() {
-    var k = 1;
-    for(var i = 1; i <= 20; ++i) {
-        for (var j = 1; j <= 20; ++j) {
-            var button = document.createElement("button")
-            button.setAttribute("id", k)
-            button.setAttribute("class", "buttons")
-            game.appendChild(button)
-            allPossibleButtons.push(parseInt(k))
-            ++k
-           
+ while(!bombs.includes(upRight)) {
+        document.getElementById(upRight).disabled = true
+        if(bombsNear[upRight] > 0) {
+            document.getElementsById(upRight).innerHTML = bombsNear[upRight]
+            break;
         }
-    }
-}
-
-function generateBombs() {
-    for(var i = numberOfBombs; i > 0; --i) {
-        var randomNumber = Math.floor(Math.random() * 400 - 1 + 1)
-        if(!(bombs.includes(randomNumber)) && randomNumber != 0) {
-            bombs.push(parseInt(randomNumber))
-        } else {
-            ++i
+        if(right.includes(upRight)) {
+            break
         }
+        ++upRight
     }
-}
+    
 
-function passTime() {
-    seconds += 1
-    document.getElementById("timer").innerText = seconds
-    console.log(seconds)
-}
 
-function getButtonId(button) {
-    return button.getAttribute("id")
-}
-
-function checkForBomb() {
-    const allButtons = Array.from(game.querySelectorAll(".buttons"))
-    allButtons.forEach(button => {
-        button.addEventListener('click', e => {
-            var isBomb = false
-            var buttonId = parseInt(getButtonId(button)) 
-            for(var i = 1; i < bombs.length; ++i) {
-                if(buttonId == bombs[i]) {
-                    isBomb = true;
-                    break;
+    while(!bombs.includes(upway)){
+        document.getElementById(upway).disabled = true
+        if(bombsNear[upway] > 0) {
+            document.getElementById(upway).innerHTML = bombsNear[upway]
+            document.getElementById(upway).disabled = true
+            ++buttonId
+            upway = buttonId
+        }
+        if(up.includes(upway)) {
+            ++buttonId
+            upway = buttonId
+        }
+        if(upway == 20) {
+            document.getElementById(upway).disabled = true
+            if(bombsNear[upway] > 0) {
+                document.getElementById(upway).innerText = bombsNear[upway]
+            }
+            break
+        }
+        if(right.includes(upway)){
+            for(var i = upway; i >= 20; i -= 20){
+                if(!bombs.includes(i)){
+                    document.getElementById(i).disabled = true
+                    if(bombsNear[i] != 0) {
+                        document.getElementById(i).innerText = bombsNear[i]
+                        break
+                    }
+                } else {
+                    break
                 }
             }
-            if(isBomb) {
-                for(var i = 1; i < bombs.length; ++i) {
-                    document.getElementById(bombs[i]).style.backgroundColor = 'red'
-                    document.getElementById(bombs[i]).disabled = true;
+            break
+        }
+        var flag = checkNext2(upway)
+        if(flag == true) {
+            break
+        }
+        upway -= 20
+        
+    }
+    buttonId = downLeft - 1
+    upway = buttonId
+    while(!bombs.includes(upway)){
+        document.getElementById(upway).disabled = true
+        if(bombsNear[upway] > 0) {
+            document.getElementById(upway).innerHTML = bombsNear[upway]
+            document.getElementById(upway).disabled = true
+            --buttonId
+            upway = buttonId
+        }
+        if(up.includes(upway)) {
+            --buttonId
+            upway = buttonId
+        }
+        if(left.includes(upway)){
+            for(var i = upway; i >= 1; i -= 20){
+                if(!bombs.includes(i)){
+                    document.getElementById(i).disabled = true
+                    if(bombsNear[i] != 0) {
+                        document.getElementById(i).innerText = bombsNear[i]
+                        break
+                    }
+                } else {
+                    break
                 }
             }
-            console.log(buttonId) 
-        })
-    })  
-    console.log(bombs)
-    console.log(allPossibleButtons)
-    console.log(buttonId)
-}
+            break
+        }
+        var flag = checkNext2(upway)
+        if(flag == true) {
+            break
+        }
+        upway -= 20
+    }
+    buttonId = downway
 
-function addMark() {
-    const allButtons = game.querySelectorAll(".buttons")
-    allButtons.forEach(button => {
-        button.addEventListener("contextmenu", e =>{
-            var buttonId = getButtonId(button)
-            document.getElementById(buttonId).style.backgroundColor = 'yellow'
-        })
-    })
+    while(!bombs.includes(downway)){
+        document.getElementById(downway).disabled = true
+        if(bombsNear[downway] > 0) {
+            document.getElementById(downway).innerHTML = bombsNear[downway]
+            document.getElementById(downway).disabled = true
+            ++buttonId
+            downway = buttonId
+        }
+        if(down.includes(downway)) {
+            ++buttonId
+            downway = buttonId
+        }
+        if(right.includes(downway)){
+            for(var i = downway; i <= 400; i += 20){
+                if(!bombs.includes(i)){
+                    document.getElementById(i).disabled = true
+                    if(bombsNear[i] != 0) {
+                        document.getElementById(i).innerText = bombsNear[i]
+                        break
+                    }
+                } else {
+                    break
+                }
+            }
+            break
+        }
+        var flag = checkNext2(downway)
+        if(flag == true) {
+            break
+        }
+        downway += 20
+    }
+    buttonId = rightway
+    downway = buttonId - 1
+    while(!bombs.includes(downway)){
+        document.getElementById(downway).disabled = true
+        if(bombsNear[downway] > 0) {
+            document.getElementById(downway).innerHTML = bombsNear[downway]
+            document.getElementById(downway).disabled = true
+            --buttonId
+            downway = buttonId
+        }
+        if(down.includes(downway)) {
+            --buttonId
+            downway = buttonId
+        }
+        if(left.includes(downway)){
+            for(var i = downway; i <= 381; i += 20){
+                if(!bombs.includes(i)){
+                    document.getElementById(i).disabled = true
+                    if(bombsNear[i] != 0) {
+                        document.getElementById(i).innerText = bombsNear[i]
+                        break
+                    }
+                } else {
+                    break
+                }
+            }
+            break
+        }
+        var flag = checkNext2(downway)
+        if(flag == true) {
+            break
+        }
+        downway += 20
+        
+    }
 }
