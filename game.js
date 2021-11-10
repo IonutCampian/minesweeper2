@@ -270,6 +270,30 @@ function checkSquare(button) {
             check(newButton3)
             check(newButton4)
             check(newButton5)
+        } else if(left.includes(button)) {
+            var newButton = button - 20
+            var newButton2 = button - 19
+            var newButton3 = button + 1
+            var newButton4 = button + 20
+            var newButton5 = button + 21
+            check(newButton)
+            check(newButton2)
+            check(newButton3)
+            check(newButton4)
+            check(newButton5)
+        }  else if(right.includes(button)) {
+            var newButton = button - 20
+            var newButton2 = button - 21
+            var newButton3 = button - 1
+            var newButton4 = button + 20
+            var newButton5 = button + 19
+            check(newButton)
+            check(newButton2)
+            check(newButton3)
+            check(newButton4)
+            check(newButton5)
+        } else {
+            
         }
     }, 10)
 }
