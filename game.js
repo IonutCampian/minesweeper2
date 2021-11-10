@@ -195,7 +195,10 @@ function checkForBomb(button) {
 }
     
 function check(button) {
-    
+    console.log(document.getElementById(button).getAttribute('name'))
+    if(document.getElementById(button).getAttribute('name') == 'checked') {
+        return  
+    }
     if(bombs.includes(button) || flags.includes(button)) {
         return
     }
@@ -211,9 +214,13 @@ function check(button) {
         document.getElementById(button).innerText = bombsNear[button]
         document.getElementById(button).disabled = true
         return  
+        } else {
+            document.getElementById(button).disabled = true
+            checkSquare(button) 
         }
-        document.getElementById(button).disabled = true
-        checkSquare(button)  
+        
+        document.getElementById(button).setAttribute('name', 'checked')
+         
     } 
 
 }
@@ -221,79 +228,94 @@ function check(button) {
 function checkSquare(button) {
     setTimeout(() => {
         if(button == 1) {
-            var newButton = button + 1
-            var newButton2 = button + 20
-            var newButton3 = button + 21
+            var newButton = parseInt(button) + 1
+            var newButton2 = parseInt(button) + 20
+            var newButton3 = parseInt(button) + 21
             check(newButton)
             check(newButton2)
             check(newButton3)
         } else if (button == 20) {
-            var newButton = button - 1
-            var newButton2 = button + 20
-            var newButton3 = button + 19
+            var newButton = parseInt(button) - 1
+            var newButton2 = parseInt(button) + 20
+            var newButton3 = parseInt(button) + 19
             check(newButton)
             check(newButton2)
             check(newButton3)
         } else if (button == 381) {
-            var newButton = button + 1
-            var newButton2 = button - 20
-            var newButton3 = button - 19
+            var newButton = parseInt(button) + 1
+            var newButton2 = parseInt(button) - 20
+            var newButton3 = parseInt(button) - 19
             check(newButton)
             check(newButton2)
             check(newButton3)
         } else if (button == 400) {
-            var newButton = button - 1
-            var newButton2 = button - 20
-            var newButton3 = button - 21
+            var newButton = parseInt(button) - 1
+            var newButton2 = parseInt(button) - 20
+            var newButton3 = parseInt(button) - 21
             check(newButton)
             check(newButton2)
             check(newButton3)
         } else if(up.includes(button)) {
-            var newButton = button - 1
-            var newButton2 = button + 1
-            var newButton3 = button + 19
-            var newButton4 = button + 20
-            var newButton5 =  button + 21
+            var newButton = parseInt(button) - 1
+            var newButton2 = parseInt(button) + 1
+            var newButton3 = parseInt(button) + 19
+            var newButton4 = parseInt(button) + 20
+            var newButton5 =  parseInt(button) + 21
             check(newButton)
             check(newButton2)
             check(newButton3)
             check(newButton4)
             check(newButton5)
         } else if(down.includes(button)) {
-            var newButton = button - 1
-            var newButton2 = button + 1
-            var newButton3 = button + 19
-            var newButton4 = button + 20
-            var newButton5 = button + 21
+            var newButton = parseInt(button) - 1
+            var newButton2 = parseInt(button) + 1
+            var newButton3 = parseInt(button) + 19
+            var newButton4 = parseInt(button) + 20
+            var newButton5 = parseInt(button) + 21
             check(newButton)
             check(newButton2)
             check(newButton3)
             check(newButton4)
             check(newButton5)
         } else if(left.includes(button)) {
-            var newButton = button - 20
-            var newButton2 = button - 19
-            var newButton3 = button + 1
-            var newButton4 = button + 20
-            var newButton5 = button + 21
+            var newButton = parseInt(button) - 20
+            var newButton2 = parseInt(button) - 19
+            var newButton3 = parseInt(button) + 1
+            var newButton4 = parseInt(button) + 20
+            var newButton5 = parseInt(button) + 21
             check(newButton)
             check(newButton2)
             check(newButton3)
             check(newButton4)
             check(newButton5)
         }  else if(right.includes(button)) {
-            var newButton = button - 20
-            var newButton2 = button - 21
-            var newButton3 = button - 1
-            var newButton4 = button + 20
-            var newButton5 = button + 19
+            var newButton = parseInt(button) - 20
+            var newButton2 = parseInt(button) - 21
+            var newButton3 = parseInt(button) - 1
+            var newButton4 = parseInt(button) + 20
+            var newButton5 = parseInt(button) + 19
             check(newButton)
             check(newButton2)
             check(newButton3)
             check(newButton4)
             check(newButton5)
         } else {
-            
+            var newButton = parseInt(button) - 1
+            var newButton2 = parseInt(button) + 1
+            var newButton3 = parseInt(button) - 19
+            var newButton4 = parseInt(button) + 19
+            var newButton5 = parseInt(button) - 20
+            var newButton6 = parseInt(button) + 20
+            var newButton7 = parseInt(button) - 21
+            var newButton8 = parseInt(button) + 21
+            check(newButton)
+            check(newButton2)
+            check(newButton3)
+            check(newButton4)
+            check(newButton5)
+            check(newButton6)
+            check(newButton7)
+            check(newButton8)
         }
     }, 10)
 }
@@ -306,4 +328,3 @@ allButtons.forEach(button => {
         flags.push(id)
     })
 })
-
