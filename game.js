@@ -208,6 +208,9 @@ function check(button) {
             document.getElementById(bombs[i]).style.backgroundColor = 'red'
             document.getElementById(bombs[i]).disabled = true
         }
+        for(var i = 1; i <= 400; ++i) {
+            document.getElementById(i).disabled = true
+        }
         gameOver = true
     } else {
         if(bombsNear[button] > 0) {
