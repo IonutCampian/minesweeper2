@@ -1,6 +1,7 @@
 const game = document.getElementById("gameBoard")
+document.getElementById('playGame').style.visibility = "hidden"
+
 var buttonId = 1
-var seconds = 0
 var time = document.getElementById("timer")
 var buttonBoard = []
 const numberOfBombs = 60
@@ -26,6 +27,10 @@ function createBoard() {
     }   
 }
 
+
+function restart() {
+    location.reload()
+}
 
 function generateBombs() {
     for(var i = numberOfBombs; i > 0; --i) {
@@ -212,6 +217,9 @@ function check(button) {
             document.getElementById(i).disabled = true
         }
         gameOver = true
+        if(gameOver) {
+            document.getElementById('playGame').style.visibility = "visible"
+        }
     } else {
         if(bombsNear[button] > 0) {
         document.getElementById(button).innerText = bombsNear[button]
@@ -291,6 +299,7 @@ function checkSquare(button) {
             check(newButton3)
             check(newButton4)
             check(newButton5)
+            return
         }  else if(right.includes(button)) {
             var newButton = parseInt(button) - 20
             var newButton2 = parseInt(button) - 21
@@ -302,6 +311,7 @@ function checkSquare(button) {
             check(newButton3)
             check(newButton4)
             check(newButton5)
+            return
         } else {
             var newButton = parseInt(button) - 1
             var newButton2 = parseInt(button) + 1
